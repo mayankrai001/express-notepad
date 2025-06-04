@@ -20,8 +20,24 @@ app.get("/file/:fileName", (req, res) => {
       fileName: req.params.fileName,
       fileData: fileData,
     });
-    console.log("fileData", fileData);
   });
+});
+
+app.get("/edit/:editFileName", (req, res) => {
+  res.render("edit", { editFileName: req.params.editFileName });
+});
+
+app.post("/edit", (req, res) => {
+  fs.rename(
+    `./files/${req.body.previousName}`,
+    `./files/${req.body.newName}`,
+    (err) => {
+      console.log("new", req.body);
+      res.redirect("/");
+    }
+  );
+  // console.log(req.body);
+  // res.render("edit", { editFileName: req.params.editFileName });
 });
 
 app.post("/create", (req, res) => {
